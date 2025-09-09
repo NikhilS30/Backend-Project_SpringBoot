@@ -1,0 +1,70 @@
+package com.example.productService.controllers;
+
+import com.example.productService.models.Product;
+import com.example.productService.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController //this annotation helps in telling compiler that this is a rest annotation
+@RequestMapping("/products") //this is class's path
+public class ProductController {
+
+    private final ProductService productService;
+
+     ProductController(@Qualifier("selfProductService") ProductService productService){
+        this.productService = productService;
+    }
+
+    @GetMapping("/helloWorld/{name}/{times}")
+    public String firstApi(@PathVariable String name,@PathVariable ("times") int times){
+         String output = "";
+         for(int i = 1;i<=times;i++){
+             output+= "hello world " + name + "\n";
+         }
+         return output;
+    }
+
+    //ye ek path variable ka example hai path variable ka this means ki whatever value is coming
+    // in id please usko put kardo product_id mein
+    @GetMapping("/products/{id}")
+    public Product getProductDetails(@PathVariable("id") Long productId){
+       return productService.getSingleProduct(productId);
+    }
+
+    @GetMapping("/products")
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable ("id") Long id){
+         productService.deleteProduct(id);
+    }
+
+    @PostMapping("/products")
+    public Product createProducts(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+
+    //patch api partial update product
+    //Response entity is nothing bas ye hai ki hum ne ek hi response body mein status aur response add karke bhej diya.
+    @PatchMapping("/products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable ("id") Long id,@RequestBody Product product){
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(
+                productService.updateProduct(id,product),
+                HttpStatus.OK
+        );
+         return responseEntity;
+    }
+
+    //put api update complete product
+    @PutMapping("/products/{id}")
+    public Product replaceProduct(@PathVariable ("id") Long id,@RequestBody Product product){
+         return null;
+    }
+}
