@@ -25,15 +25,15 @@ class ProductControllerTest {
     private ProductController productController;
 
     @Test
-    void testGetProductDetails() {
+    void testGetSingleProduct() {
     }
 
     @Test
-    void testGetProductDetailsPositive() {
+    void testGetSingleProductPositive() {
     }
 
     @Test
-    void testGetProductDetailsNegative() {
+    void testGetSingleProductNegative() {
     }
 
     @Test

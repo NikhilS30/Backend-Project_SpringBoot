@@ -20,3 +20,8 @@ public class FakeStoreProductDto {
     private String description;
     private String image;
 }
+
+/*
+iss class mein wo format hoga response ka jo hume fakestore ki api return karegi
+yaa bol lo koi 3rd party api jo return karegi wo response isme hoga
+ */
