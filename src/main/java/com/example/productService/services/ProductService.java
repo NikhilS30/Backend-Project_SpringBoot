@@ -1,5 +1,6 @@
 package com.example.productService.services;
 
+import com.example.productService.customExceptions.ProductNotfoundException;
 import com.example.productService.dto.FakeStoreProductDto;
 import com.example.productService.models.Product;
 

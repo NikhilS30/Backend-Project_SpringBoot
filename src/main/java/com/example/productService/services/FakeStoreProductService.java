@@ -1,5 +1,6 @@
 package com.example.productService.services;
 
+import com.example.productService.customExceptions.ProductNotfoundException;
 import com.example.productService.dto.FakeStoreProductDto;
 import com.example.productService.models.Category;
 import com.example.productService.models.Product;
@@ -29,13 +30,17 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product getSingleProduct(Long productId) {
+    public Product getSingleProduct(Long productId){
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/"+productId,
                 FakeStoreProductDto.class
                 );
 
         logger.info("fakeStore product response :: {}",fakeStoreProductDto);
+
+        if(fakeStoreProductDto == null){
+            throw new ProductNotfoundException("Product with id "+ productId +" doesn't exist");
+        }
 
         return convertFakeStoreProductToProduct(fakeStoreProductDto);
     }

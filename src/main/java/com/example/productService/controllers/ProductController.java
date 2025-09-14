@@ -1,5 +1,6 @@
 package com.example.productService.controllers;
 
+import com.example.productService.customExceptions.ProductNotfoundException;
 import com.example.productService.models.Product;
 import com.example.productService.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,14 @@ public class ProductController {
     that means ki jo id path mein pass hogi wo yaha isme receive hogi
      */
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") Long productId){
-       return productService.getSingleProduct(productId);
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("id") Long productId){
+        ResponseEntity<Product> responseEntity = null;
+            Product product = productService.getSingleProduct(productId);
+            responseEntity = new ResponseEntity<>(
+                    product,
+                    HttpStatus.OK
+            );
+        return responseEntity;
     }
 
     @GetMapping("/products")
@@ -44,9 +51,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable ("id") Long productId){
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long productId) {
         productService.deleteProduct(productId);
-        return "deleted success";
+        return ResponseEntity.ok("product with id "+productId+" deleted successfully");
     }
 
     @PostMapping("/products")
