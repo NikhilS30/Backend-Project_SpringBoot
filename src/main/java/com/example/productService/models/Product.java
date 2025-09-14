@@ -15,20 +15,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
+//@Entity(name = "Products") if you wish to give some name other than class name for db tables this is how you do
+//whatever name you give it will make table in small case onl
 @Entity
-//@Table(name = "Products")
-/* if you wish to give some name other than class name for db tables this is how you do
-whatever name you give it will make table in small case only*/
 public class Product extends BaseModel {
     private String title;
     private Double price;
-
-    /* agar muje product response mein category details nahi dikhani to mai fetch type ko lazy karduga
-     isse bas mere product ki details ayegi uske sath mapped category nahi aur agar muje eager hi rakhna
-      hai to json ignore karduga
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    */
     @ManyToOne
     private Category category;
+    /*
+    @ManyToOne(fetch = FetchType.EAGER)
+    agar muje product response mein category details nahi dikhani to mai fetch type ko lazy karduga
+    isse bas mere product ki details ayegi uske sath mapped category nahi
+    */
 }
