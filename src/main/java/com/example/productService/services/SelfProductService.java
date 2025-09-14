@@ -1,5 +1,6 @@
 package com.example.productService.services;
 
+import com.example.productService.customExceptions.ProductNotfoundException;
 import com.example.productService.models.Category;
 import com.example.productService.models.Product;
 import com.example.productService.repositories.CategoryRepository;
@@ -11,12 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Primary //now making this primary
 public class SelfProductService implements ProductService {
-
-    Product product;
-
-    private ProductRepository productRepository;
-    private CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public SelfProductService(ProductRepository productRepository,CategoryRepository categoryRepository){
         this.productRepository = productRepository;
@@ -60,7 +59,24 @@ public class SelfProductService implements ProductService {
 
     @Override
     public Product replaceProduct(Long id, Product product) {
-        return null;
+        Optional<Product> optionalProductInDb = productRepository.findById(id);
+        if(optionalProductInDb.isEmpty()){
+            throw new ProductNotfoundException("Product doesn't exist with given id "+ id);
+        }
+        Product productInDB =  optionalProductInDb.get();
+
+        if(product.getPrice()!=null){
+            productInDB.setPrice(product.getPrice());
+        }
+
+        if(product.getTitle()!=null){
+            productInDB.setTitle(product.getTitle());
+        }
+
+        if(product.getCategory()!=null){
+            productInDB.setCategory(product.getCategory());
+        }
+        return productRepository.save(productInDB);
     }
 
     @Override

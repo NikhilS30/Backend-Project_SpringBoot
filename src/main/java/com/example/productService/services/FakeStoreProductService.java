@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Primary
+//@Primary
 public class FakeStoreProductService implements ProductService{
     private static final Logger logger = LoggerFactory.getLogger(FakeStoreProductService.class);
     private final RestOperations restOperations;

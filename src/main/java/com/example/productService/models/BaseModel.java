@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.Date;
@@ -21,6 +23,8 @@ public class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment
     private Long id;
+    @CreationTimestamp
     private Date createdAt;
+    @UpdateTimestamp
     private Date updatedAt;
 }

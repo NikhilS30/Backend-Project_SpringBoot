@@ -34,7 +34,7 @@ public class ProductController {
     please usko put kardo @PathVariable ki annotation mein aur maine jo Long productId likha hai
     that means ki jo id path mein pass hogi wo yaha isme receive hogi
      */
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<Product> getSingleProduct(@PathVariable("id") Long productId){
         ResponseEntity<Product> responseEntity = null;
             Product product = productService.getSingleProduct(productId);
@@ -50,7 +50,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.ok("product with id "+productId+" deleted successfully");
@@ -75,6 +75,6 @@ public class ProductController {
     //put api update complete product
     @PutMapping("/products/{id}")
     public Product replaceProduct(@PathVariable ("id") Long id,@RequestBody Product product){
-         return null;
+         return productService.replaceProduct(id,product);
     }
 }
