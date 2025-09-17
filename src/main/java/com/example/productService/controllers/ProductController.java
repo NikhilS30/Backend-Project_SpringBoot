@@ -2,6 +2,7 @@ package com.example.productService.controllers;
 
 import com.example.productService.models.Product;
 import com.example.productService.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-     ProductController(ProductService productService){
+     ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
         this.productService = productService;
     }
 
