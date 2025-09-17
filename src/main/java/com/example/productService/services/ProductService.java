@@ -1,8 +1,7 @@
 package com.example.productService.services;
 
-import com.example.productService.customExceptions.ProductNotfoundException;
-import com.example.productService.dto.FakeStoreProductDto;
 import com.example.productService.models.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ import java.util.List;
 
     Product getSingleProduct(Long productId);
 
+    Page<Product> getAllProducts(int pageNumber, int pageSize);
     List<Product> getAllProducts();
 
     Product addNewProduct(Product product);

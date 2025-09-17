@@ -1,8 +1,8 @@
 package com.example.productService.controllers;
 
-import com.example.productService.customExceptions.ProductNotfoundException;
 import com.example.productService.models.Product;
 import com.example.productService.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +45,14 @@ public class ProductController {
         return responseEntity;
     }
 
+//    @GetMapping("/products")
+//    public List<Product> getAllProducts(){
+//        return productService.getAllProducts();
+//    }
+
     @GetMapping("/products")
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize){
+        return productService.getAllProducts(pageNumber,pageSize);
     }
 
     @DeleteMapping("/products/{id}")

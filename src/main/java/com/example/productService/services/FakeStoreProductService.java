@@ -6,7 +6,7 @@ import com.example.productService.models.Category;
 import com.example.productService.models.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,6 +43,11 @@ public class FakeStoreProductService implements ProductService{
         }
 
         return convertFakeStoreProductToProduct(fakeStoreProductDto);
+    }
+
+    @Override
+    public Page<Product> getAllProducts(int pageNumber, int pageSize) {
+        return null;
     }
 
     @Override
