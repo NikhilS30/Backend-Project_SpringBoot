@@ -61,6 +61,12 @@ public class FakeStoreProductService implements ProductService{
         return null;
     }
 
+    /*
+    yaha humne instead of list array use kiya reason simple hai runtime pr spring ko pata hi nahi hai kisme map karu
+    to wo type erasure problem aa jati hai - "generics ki ek limitation" because at runtime to make java 5+ code compatible
+    with older versions it do's this ki it removes all data types from list make it simple plain list islie spring ko pata
+    nhi kisme map karu islie aaj bhi developers array use karte hai becoz array ka pata hai spring ko
+     */
     @Override
     public List<Product> getAllProducts() {
         FakeStoreProductDto[] fakeStoreProductDtoList = restTemplate.getForObject(

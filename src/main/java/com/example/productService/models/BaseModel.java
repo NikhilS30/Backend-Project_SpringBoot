@@ -29,3 +29,7 @@ public class BaseModel implements Serializable {
     @UpdateTimestamp
     private Date updatedAt;
 }
+
+
+//the purpose of this class is to reduce redundant code like the models which are common for many entity can be handled from
+// here

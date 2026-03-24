@@ -20,6 +20,10 @@ public class FakeStoreProductDto {
     private String description;
     private String image;
 }
+/*
+DTO's la basic use jo hai wo yeh hai ki hum baar baar apna model nahi change kar sakte humara model fix hai
+islie hum depending upon 3rd party api dtos banate hai to map the db column to response
+ */
 
 /*
 iss class mein wo format hoga response ka jo hume fakestore ki api return karegi
