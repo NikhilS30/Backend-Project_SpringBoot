@@ -1,29 +1,40 @@
 package com.example.productService.services;
 
 import com.example.productService.customExceptions.ProductNotfoundException;
+import com.example.productService.dto.EmailDto;
+import com.example.productService.kafkaEvent.PublishEvent;
 import com.example.productService.models.Category;
 import com.example.productService.models.Product;
 import com.example.productService.repositories.CategoryRepository;
 import com.example.productService.repositories.ProductRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service("selfProductService")
-//@Primary //now making this primary
+@Primary //now making this primary
 public class SelfProductService implements ProductService {
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private PublishEvent publishEvent;
 
-    public SelfProductService(ProductRepository productRepository,CategoryRepository categoryRepository){
+    public SelfProductService(
+            ProductRepository productRepository,
+            CategoryRepository categoryRepository,
+            PublishEvent publishEvent){
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.publishEvent = publishEvent;
     }
 
     @Override
@@ -53,18 +64,29 @@ public class SelfProductService implements ProductService {
         productRepository.deleteById(id);
     }
 
-    @Override
     public Product addNewProduct(Product product) {
-        Category category = product.getCategory();
-        if(category.getId()==null){
-            // this is new category or a new product toh pehle category save hogi then product
-             Category savedCategory = categoryRepository.save(category);
 
-             //ye humne islie kiya kyu ki jo nayi category save hui hai uski id ayegi saved category mein
-             //aur hum uss updated saved category ko product mein save kardege id miljaegi na
-             product.setCategory(savedCategory);
+        Category category = product.getCategory();
+
+        if (category.getId() == null) {
+            // this is new category or a new product toh pehle category save hogi then product
+            Category savedCategory = categoryRepository.save(category);
+            //ye humne islie kiya kyu ki jo nayi category save hui hai uski id ayegi saved category mein
+            //aur hum uss updated saved category ko product mein save kardege id miljaegi na
+            product.setCategory(savedCategory);
         }
+
         Product savedProduct = productRepository.save(product);
+
+
+        // 🔥 Kafka publish (non-blocking mindset)
+        try {
+            //adding kafka now
+            publishEvent.publishEvent(savedProduct);
+        } catch (Exception e) {
+            System.out.println("Kafka publish failed: " + e.getMessage());
+        }
+
         return savedProduct;
     }
 

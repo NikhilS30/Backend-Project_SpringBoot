@@ -25,19 +25,19 @@ public class ApplicationConfiguration {
         return new RestTemplate();
     }
 
-    @Bean
-    public RedisTemplate<String,Object> getRedisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String,Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        // 🔑 Keys & Hash Keys as String
-//        template.setKeySerializer(new StringRedisSerializer());
-//        template.setHashKeySerializer(new StringRedisSerializer());
+//    @Bean
+//    public RedisTemplate<String,Object> getRedisTemplate(RedisConnectionFactory redisConnectionFactory){
+//        RedisTemplate<String,Object> template = new RedisTemplate<>();
+//        template.setConnectionFactory(redisConnectionFactory);
+//        // 🔑 Keys & Hash Keys as String
+////        template.setKeySerializer(new StringRedisSerializer());
+////        template.setHashKeySerializer(new StringRedisSerializer());
+////
+////        // 📦 Values & Hash Values as JSON
+////        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+////        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 //
-//        // 📦 Values & Hash Values as JSON
-//        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-//        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-
-        template.afterPropertiesSet();
-        return template;
-    }
+//        template.afterPropertiesSet();
+//        return template;
+//    }
 }

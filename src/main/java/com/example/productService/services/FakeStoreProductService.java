@@ -25,36 +25,49 @@ public class FakeStoreProductService implements ProductService{
     private RedisTemplate<String,Object> redisTemplate;
     private FakeStoreProductDto fakeStoreProductDto;
 
-    FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String,Object> redisTemplate){
-        this.restTemplate=restTemplate;
-        this.redisTemplate = redisTemplate;
-
+//    FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String,Object> redisTemplate){
+//        this.restTemplate=restTemplate;
+////        this.redisTemplate = redisTemplate;
+//
+//    }
+    FakeStoreProductService(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
     }
+
+//    @Override
+//    public Product getSingleProduct(Long productId) {
+//        throw new ProductNotfoundException(productId);
+//    }
 
     @Override
-    public Product getSingleProduct(Long productId){
-        Product redisproduct =  (Product) redisTemplate.opsForHash().get("PRODUCTS","PRODUCT_" + productId);
-        if(redisproduct!=null){
-            //cache hit
-            return redisproduct;
-        }
-        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject(
-                "https://fakestoreapi.com/products/"+productId,
-                FakeStoreProductDto.class
-                );
-
-        logger.info("fakeStore product response :: {}",fakeStoreProductDto);
-
-        if(fakeStoreProductDto == null){
-            throw new ProductNotfoundException("Product with id "+ productId +" doesn't exist");
-        }
-        Product product = convertFakeStoreProductToProduct(fakeStoreProductDto);
-
-
-        //storing data in redis db
-        redisTemplate.opsForHash().put("PRODUCTS","PRODUCT_" +productId , product);
-        return product;
+    public Product getSingleProduct(Long productId) {
+        throw new ProductNotfoundException("Product does not exist");
     }
+
+//    @Override
+//    public Product getSingleProduct(Long productId){
+//        Product redisproduct =  (Product) redisTemplate.opsForHash().get("PRODUCTS","PRODUCT_" + productId);
+//        if(redisproduct!=null){
+//            //cache hit
+//            return redisproduct;
+//        }
+//        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject(
+//                "https://fakestoreapi.com/products/"+productId,
+//                FakeStoreProductDto.class
+//                );
+//
+//        logger.info("fakeStore product response :: {}",fakeStoreProductDto);
+//
+//        if(fakeStoreProductDto == null){
+//            throw new ProductNotfoundException("Product with id "+ productId +" doesn't exist");
+//        }
+//        Product product = convertFakeStoreProductToProduct(fakeStoreProductDto);
+//
+//
+//        //storing data in redis db
+//        redisTemplate.opsForHash().put("PRODUCTS","PRODUCT_" +productId , product);
+//        return product;
+//    }
 
     @Override
     public Page<Product> getAllProducts(int pageNumber, int pageSize) {

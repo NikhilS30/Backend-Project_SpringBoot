@@ -1,8 +1,7 @@
 package com.example.productService.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+//import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-//@Entity(name = "Products") if you wish to give some name other than class name for db tables this is how you do
-//whatever name you give it will make table in small case onl
+//@Entity(name = "Products") if you wish to give some name other than class name for db tables, this is how you do,
+//but in general whatever class name you give it will make table with that name in small case only
 @Entity
 public class Product extends BaseModel {
     private String title;
